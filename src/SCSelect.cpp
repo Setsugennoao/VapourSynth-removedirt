@@ -1,4 +1,4 @@
-#include "shared.h"
+#include "RemoveDirt.h"
 
 typedef struct {
   VSNodeRef *input;
@@ -58,18 +58,16 @@ static const VSFrameRef *VS_CC SCSelectGetFrame(int32_t n, int32_t activationRea
         d->lastdiff = gdiff(
             vsapi->getReadPtr(src_frame, 0), vsapi->getStride(src_frame, 0),
             vsapi->getReadPtr(prev_frame, 0), vsapi->getStride(prev_frame, 0),
-            d->hblocks, d->incpitch, d->vi->height
-        );
+            d->hblocks, d->incpitch, d->vi->height);
         vsapi->freeFrame(prev_frame);
       }
 
       int32_t olddiff = d->lastdiff;
       const VSFrameRef *next_frame = vsapi->getFrameFilter(n + 1, d->input, frameCtx);
       d->lastdiff = gdiff(
-        vsapi->getReadPtr(src_frame, 0), vsapi->getStride(src_frame, 0),
-        vsapi->getReadPtr(next_frame, 0), vsapi->getStride(next_frame, 0),
-        d->hblocks, d->incpitch, d->vi->height
-      );
+          vsapi->getReadPtr(src_frame, 0), vsapi->getStride(src_frame, 0),
+          vsapi->getReadPtr(next_frame, 0), vsapi->getStride(next_frame, 0),
+          d->hblocks, d->incpitch, d->vi->height);
       d->lnr = n;
 
       vsapi->freeFrame(src_frame);
@@ -120,10 +118,9 @@ void VS_CC SCSelectCreate(const VSMap *in, VSMap *out, void *userData, VSCore *c
   d.globalMotion = vsapi->propGetNode(in, "globalMotion", 0, 0);
 
   if (
-    !isSameFormat(d.vi, vsapi->getVideoInfo(d.sceneBegin)) ||
-    !isSameFormat(d.vi, vsapi->getVideoInfo(d.sceneEnd)) ||
-    !isSameFormat(d.vi, vsapi->getVideoInfo(d.globalMotion))
-  ) {
+      !isSameFormat(d.vi, vsapi->getVideoInfo(d.sceneBegin)) ||
+      !isSameFormat(d.vi, vsapi->getVideoInfo(d.sceneEnd)) ||
+      !isSameFormat(d.vi, vsapi->getVideoInfo(d.globalMotion))) {
     vsapi->freeNode(d.input);
     vsapi->freeNode(d.sceneBegin);
     vsapi->freeNode(d.sceneEnd);

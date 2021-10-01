@@ -1,13 +1,4 @@
-#include "shared.h"
-
-typedef struct {
-  VSNodeRef *input;
-  VSFrameRef *lf;
-  const VSVideoInfo *vi;
-  int32_t mthreshold;
-  int32_t lfnr;
-  RemoveDirtData rd;
-} DupBlocksData;
+#include "RemoveDirt.h"
 
 static void VS_CC DupBlocksFree(void *instanceData, VSCore *core, const VSAPI *vsapi) {
   DupBlocksData *d = (DupBlocksData *)instanceData;

@@ -1,4 +1,4 @@
-#include "shared.h"
+#include "RemoveDirt.h"
 
 typedef struct {
   VSNodeRef *input;
@@ -150,8 +150,7 @@ void VS_CC RestoreMotionBlocksCreate(const VSMap *in, VSMap *out, void *userData
   if (
       !isSameFormat(d.vi, vsapi->getVideoInfo(d.restore)) ||
       !isSameFormat(d.vi, vsapi->getVideoInfo(d.before)) ||
-      !isSameFormat(d.vi, vsapi->getVideoInfo(d.after))
-  ) {
+      !isSameFormat(d.vi, vsapi->getVideoInfo(d.after))) {
     vsapi->freeNode(d.input);
     if (d.before != d.after) {
       vsapi->freeNode(d.before);
