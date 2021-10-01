@@ -1,5 +1,5 @@
-#include "VapourSynth.h"
-#include "VSHelper.h"
+#include <vapoursynth/VSHelper.h>
+#include <vapoursynth/VapourSynth.h>
 
 #if defined(_MSC_VER)
 #define _ALLOW_KEYWORD_MACROS
@@ -11,59 +11,59 @@
 #endif
 
 typedef struct {
-    uint8_t ALIGNED_ARRAY(noiselevel, 16)[16];
-    uint8_t *blockproperties_addr;
-    uint32_t threshold;
-    int32_t pline;
-    int32_t nline;
-    int32_t motionblocks;
-    uint8_t *blockproperties;
-    int32_t linewidth;
-    int32_t hblocks;
-    int32_t vblocks;
-    int32_t hblocksSSE2;
-    bool remainderSSE2;
-    int32_t linewidthSSE2;
-    uint32_t (*blockcompare)(const uint8_t *p1, int32_t pitch1, const uint8_t *p2, int32_t pitch2, const uint8_t *noiselevel);
-    void (*blockcompareSSE2)(const uint8_t *p1, const uint8_t *p2, int32_t pitch, const uint8_t *noiselevel);
+  uint8_t ALIGNED_ARRAY(noiselevel, 16)[16];
+  uint8_t *blockproperties_addr;
+  uint32_t threshold;
+  int32_t pline;
+  int32_t nline;
+  int32_t motionblocks;
+  uint8_t *blockproperties;
+  int32_t linewidth;
+  int32_t hblocks;
+  int32_t vblocks;
+  int32_t hblocksSSE2;
+  bool remainderSSE2;
+  int32_t linewidthSSE2;
+  uint32_t (*blockcompare)(const uint8_t *p1, int32_t pitch1, const uint8_t *p2, int32_t pitch2, const uint8_t *noiselevel);
+  void (*blockcompareSSE2)(const uint8_t *p1, const uint8_t *p2, int32_t pitch, const uint8_t *noiselevel);
 } MotionDetectionData;
 
 typedef struct MotionDetectionDistData MotionDetectionDistData;
 
-struct MotionDetectionDistData{
-    int32_t distblocks;
-    uint32_t blocks;
-    uint32_t tolerance;
-    uint32_t *isum;
-    int32_t dist;
-    int32_t dist1;
-    int32_t dist2;
-    int32_t hint32_terior;
-    int32_t vint32_terior;
-    int32_t colinc;
-    int32_t isumline;
-    int32_t isuminc1;
-    int32_t isuminc2;
-    void (*processneighbours)(MotionDetectionDistData*);
-    MotionDetectionData md;
+struct MotionDetectionDistData {
+  int32_t distblocks;
+  uint32_t blocks;
+  uint32_t tolerance;
+  uint32_t *isum;
+  int32_t dist;
+  int32_t dist1;
+  int32_t dist2;
+  int32_t hint32_terior;
+  int32_t vint32_terior;
+  int32_t colinc;
+  int32_t isumline;
+  int32_t isuminc1;
+  int32_t isuminc2;
+  void (*processneighbours)(MotionDetectionDistData *);
+  MotionDetectionData md;
 };
 
 typedef struct {
-    int32_t linewidthUV;
-    int32_t chromaheight;
-    int32_t chromaheightm;
-    int32_t pthreshold;
-    int32_t cthreshold;
-    int32_t loops;
-    int32_t restored_blocks;
-    int32_t (*vertical_diff_chroma)(const uint8_t *u, const uint8_t *v, int32_t pitch, const uint8_t *noiselevel);
-    MotionDetectionDistData mdd;
+  int32_t linewidthUV;
+  int32_t chromaheight;
+  int32_t chromaheightm;
+  int32_t pthreshold;
+  int32_t cthreshold;
+  int32_t loops;
+  int32_t restored_blocks;
+  int32_t (*vertical_diff_chroma)(const uint8_t *u, const uint8_t *v, int32_t pitch, const uint8_t *noiselevel);
+  MotionDetectionDistData mdd;
 } PostProcessingData;
 
 typedef struct {
-    bool grey;
-    bool show;
-    PostProcessingData pp;
+  bool grey;
+  bool show;
+  PostProcessingData pp;
 } RemoveDirtData;
 
 void VS_CC SCSelectCreate(const VSMap *in, VSMap *out, void *userData, VSCore *core, const VSAPI *vsapi);

@@ -392,7 +392,7 @@ static __forceinline uint32_t NSADcompare(const uint8_t *p1, int32_t pitch1, con
 
     __m128i xmm0;
     xmm0 = _mm_castps_si128(_mm_loadh_pi(_mm_loadl_pi(_mm_castsi128_ps(xmm0), (__m64 *)(p1)), (__m64 *)(p1+pitch1x2)));
-    
+
     __m128i xmm2;
     xmm2 = _mm_castps_si128(_mm_loadh_pi(_mm_loadl_pi(_mm_castsi128_ps(xmm2), (__m64 *)(p1+pitch1)), (__m64 *)(p1+pitch1x3)));
 
@@ -460,7 +460,7 @@ uint8_t ALIGNED_ARRAY(excessadd, 16)[16] = { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 };
 static __forceinline uint32_t ExcessPixels(const uint8_t *p1, int32_t pitch1, const uint8_t *p2, int32_t pitch2, const uint8_t *noiselevel)
 {
     __m128i xmm7 = _mm_loadu_si128((__m128i*)noiselevel);
-    
+
     int32_t pitch1x2 = pitch1 + pitch1;
     int32_t pitch1x3 = pitch1x2 + pitch1;
     int32_t pitch1x4 = pitch1x3 + pitch1;
@@ -473,7 +473,7 @@ static __forceinline uint32_t ExcessPixels(const uint8_t *p1, int32_t pitch1, co
 
     __m128i xmm2;
     xmm2 = _mm_castps_si128(_mm_loadh_pi(_mm_loadl_pi(_mm_castsi128_ps(xmm2), (__m64 *)(p1+pitch1)), (__m64 *)(p1+pitch1x3)));
-    
+
     __m128i xmm3 = xmm0;
     __m128i xmm4 = xmm2;
 
@@ -533,7 +533,7 @@ static __forceinline uint32_t ExcessPixels(const uint8_t *p1, int32_t pitch1, co
     xmm0 = _mm_sad_epu8(xmm0, xmm5);
 
     xmm1 = _mm_castps_si128(_mm_movehl_ps(_mm_castsi128_ps(xmm1), _mm_castsi128_ps(xmm0)));
-    
+
     xmm0 = _mm_add_epi8(xmm0, xmm1);
 
     return (uint32_t)_mm_cvtsi128_si32(xmm0);
@@ -570,7 +570,7 @@ static void processneighbours2(MotionDetectionDistData *mdd)
             if(properties[0] == MOTION_FLAG1) {
                 --mdd->distblocks;
                 properties[0] = 0;
-            } else if(properties[0] == MOTION_FLAG2) { 
+            } else if(properties[0] == MOTION_FLAG2) {
                 ++mdd->distblocks;
             }
             ++properties;
@@ -621,7 +621,7 @@ static void markneighbours(MotionDetectionDistData *mdd)
             *isum2++ = (sum += *end++);
         } while(--i);
 
-        i = mdd->hint32_terior; 
+        i = mdd->hint32_terior;
         do {
             *isum2++ = (sum += *end++ - *begin++);
         } while(--i);
@@ -675,7 +675,7 @@ static void markneighbours(MotionDetectionDistData *mdd)
                 *begin |= MOTION_FLAG2;
             }
             begin += mdd->md.nline;
-        } while(--i);	
+        } while(--i);
 
         begin += mdd->colinc;
         isum1 = (uint32_t*)((char*)isum1 + mdd->isuminc1);
@@ -722,7 +722,7 @@ static void markblocks2(MotionDetectionData *md, const uint8_t *p1, const uint8_
         int32_t i = md->hblocksSSE2;
 
         do {
-            md->blockcompareSSE2(p1, p2, pitch, md->noiselevel); 
+            md->blockcompareSSE2(p1, p2, pitch, md->noiselevel);
             properties[0] = properties[1] = 0;
 
             if(blockcompare_result[0] >= md->threshold) {
@@ -785,7 +785,7 @@ static __forceinline int32_t vertical_diff(const uint8_t *p, int32_t pitch, cons
     xmm1 = _mm_insert_epi16(xmm1, *((int32_t*)(p+pitchx3)), 1);
 
     xmm7 = _mm_cmpeq_epi8(xmm7, xmm7);
-    
+
     p += pitchx4;
 
     xmm0 = _mm_insert_epi16(xmm0, *((int32_t*)p), 2);
@@ -1046,7 +1046,7 @@ static void postprocessing(PostProcessingData *pp, uint8_t *dp, int32_t dpitch, 
         const uint8_t *spV2 = spV;
         uint8_t *cl = pp->mdd.md.blockproperties;
         ++pp->loops;
-        to_restore = 0; 
+        to_restore = 0;
 
         int32_t i = pp->mdd.md.vblocks;
 
@@ -1128,7 +1128,7 @@ static void show_motion(PostProcessingData *pp, uint8_t *u, uint8_t *v, int32_t 
 
         do {
             if(properties[0]) {
-                uint32_t u_color = u_ncolor; 
+                uint32_t u_color = u_ncolor;
                 uint32_t v_color = v_ncolor;
                 if((properties[0] & MOTION_FLAG) != 0) {
                     u_color = u_mcolor;
@@ -1154,7 +1154,7 @@ static void show_motion(PostProcessingData *pp, uint8_t *u, uint8_t *v, int32_t 
 
 static void FillMotionDetection(MotionDetectionData *md, const VSMap *in, VSMap *out, const VSAPI *vsapi, const VSVideoInfo *vi)
 {
-    int32_t err;    
+    int32_t err;
     int32_t noise = (int32_t) vsapi->propGetInt(in, "noise", 0, &err);
     if (err) {
         noise = 0;
