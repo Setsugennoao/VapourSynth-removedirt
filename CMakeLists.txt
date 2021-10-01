@@ -13,10 +13,12 @@ string(REGEX REPLACE "([\\/\\-]O)3" "\\12" CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMA
 add_library(
   ${PROJECT_NAME} SHARED
   src/DupBlocks.cpp
+  src/RemoveDirt.cpp
+  src/RemoveDirt.h
+  src/RemoveDirtAVS.cpp
   src/RestoreMotionBlocks.cpp
   src/SCSelect.cpp
-  src/shared.cpp
-  src/RemoveDirt.cpp
+  src/utils.cpp
 )
 
 find_library(vapoursynth "${VS_LIB_PATH}\\sdk\\lib64")
