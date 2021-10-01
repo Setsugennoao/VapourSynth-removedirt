@@ -15,7 +15,7 @@ Please refer to Avisynth's [wiki](http://avisynth.nl/index.php/RemoveDirt)
 I prefer doing it in VSCode, but
 
 ```bash
-cmake --build ./build --config Release --target vsdpir -j 26 --
+cmake --build ./build --config Release --target vsremovedirt -j 26 --
 ```
 
 Keep in mind you'll have to set [VS_LIB_PATH](https://github.com/vapoursynth/vapoursynth) manually.
