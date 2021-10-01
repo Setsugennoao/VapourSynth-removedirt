@@ -1188,9 +1188,9 @@ static void FillMotionDetectionDist(MotionDetectionDistData *mdd, const VSMap *i
     dist = 1;
   }
 
-  static void (*neighbourproc[3])(MotionDetectionDistData *) = {processneighbours1,
-                                                                processneighbours2,
-                                                                processneighbours3};
+  static void (*neighbourproc[3])(MotionDetectionDistData *) = {
+    processneighbours1, processneighbours2, processneighbours3
+  };
 
   mdd->blocks = mdd->md.hblocks * mdd->md.vblocks;
   mdd->isum = new uint32_t[mdd->blocks];
